@@ -16,11 +16,17 @@ object LaunchSparkStream {
 
     val flumeStream = FlumeUtils.createPollingStream(streamingContext, "192.168.52.128", 9999);
     
-    println("flume stream created ::::::: #####3");
+    println("flume stream created ::::::: #####");
     
-   // flumeStream.count().map(cnt => "Received " + cnt + " flume events." ).print();
+    new Parser().parse(flumeStream);
     
-    flumeStream.saveAsTextFiles("clickstream_"+System.currentTimeMillis(), "log");
+   /* val schemaConvertor = new SchemaConvertor();
+    schemaConvertor.addSchema(flumeStream);*/
+    
+    
+  /*  val count = flumeStream.count();
+    
+    count.saveAsTextFiles("clickstream_"+System.currentTimeMillis(), "log");*/
 
     streamingContext.start();
     streamingContext.awaitTermination();
