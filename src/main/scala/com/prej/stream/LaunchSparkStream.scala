@@ -18,16 +18,8 @@ object LaunchSparkStream {
     
     println("flume stream created ::::::: #####");
     
-    new Parser().parse(flumeStream);
-    
-   /* val schemaConvertor = new SchemaConvertor();
-    schemaConvertor.addSchema(flumeStream);*/
-    
-    
-  /*  val count = flumeStream.count();
-    
-    count.saveAsTextFiles("clickstream_"+System.currentTimeMillis(), "log");*/
-
+    new Parser().parse(flumeStream, streamingContext.sparkContext);
+     
     streamingContext.start();
     streamingContext.awaitTermination();
   }

@@ -8,10 +8,12 @@ import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.text.ParseException
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.SparkContext
 
 class Parser extends Serializable {
   
-  def parse (dstream : DStream[SparkFlumeEvent])
+  def parse (dstream : DStream[SparkFlumeEvent], sparkContext : SparkContext)
   {
     println("inside parse of Parser ::::::: #####");
     dstream.foreachRDD { rDD =>
@@ -24,8 +26,11 @@ class Parser extends Serializable {
             ClickInfo(temp(0), temp(1), temp(2), temp(3).toInt, temp(4).toInt, temp(5), temp(6), 1);
         }
 
-      val clickDAO = new ClickDAO().add(RDD.rddToPairRDDFunctions(new Sessionizer().sessionize(mappedRDD)).values);
+      val clickDAO = new ClickDAO().add(RDD.rddToPairRDDFunctions(new Sessionizer().sessionize(mappedRDD)).values, sparkContext);
+      new ClickDAO().get(sparkContext);
     }
+    
+
   }
 
   def parseElement(arr: Array[String], temp: Array[String]) = { //<TODO :  change implementation,, make it simpler>
