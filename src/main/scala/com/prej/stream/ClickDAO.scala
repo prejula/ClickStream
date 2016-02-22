@@ -14,12 +14,8 @@ class ClickDAO {
       val sqlContext = SQLContext.getOrCreate(sc);
       import sqlContext.implicits._
     
-      val clickDF = mappedRDD.toDF("ip", "date", "uri", "status", "random", "referer", "userAgent", "sessionId");
-      clickDF.foreach { x => println(x.toString()) }
-      
-      clickDF.registerTempTable("clickstream");
-      
-      println("registered table clickstream");
+      val clickDF = mappedRDD.toDF("ip", "date", "uri", "status", "random", "referer", "userAgent", "sessionId", "month", "year", "day");
+      clickDF.write.partitionBy("year", "month", "day").parquet("hdfs://localhost:54310/user/spark/clickstream/clickdata.parquet");
   }
   
   def get(sc : SparkContext)
@@ -27,6 +23,7 @@ class ClickDAO {
       val sqlContext = SQLContext.getOrCreate(sc);
       import sqlContext.implicits._
 
+      sqlContext.read.parquet("hdfs://localhost:54310/user/spark/clickstream/clickdata.parquet").registerTempTable("clickstream");
       val clickStream = sqlContext.sql("select * from clickstream");
       clickStream.show();
   }

@@ -23,9 +23,11 @@ class Parser extends Serializable {
           arr =>
             var temp = new Array[String](7);
             parseElement(arr, temp);
-            ClickInfo(temp(0), temp(1), temp(2), temp(3).toInt, temp(4).toInt, temp(5), temp(6), 1);
+            val formatter = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
+            var date = formatter.parse(temp(1));
+            ClickInfo(temp(0), temp(1), temp(2), temp(3).toInt, temp(4).toInt, temp(5), temp(6), 1, formatter.getCalendar.get(Calendar.MONTH), formatter.getCalendar.get(Calendar.YEAR), formatter.getCalendar.get(Calendar.DATE));
         }
-
+     
       val clickDAO = new ClickDAO().add(RDD.rddToPairRDDFunctions(new Sessionizer().sessionize(mappedRDD)).values, sparkContext);
       new ClickDAO().get(sparkContext);
     }

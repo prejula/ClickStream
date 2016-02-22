@@ -20,8 +20,9 @@ class Sessionizer {
         if (date2.getTime() - date1.getTime() > 1800000) {
           sessionCount = sessionCount + 1;
         }
+        
    //     println("create sessionized click data:: " + sessionCount);
-        ClickInfo(clickInfo2.ip, clickInfo2.date, clickInfo2.uri, clickInfo2.status, clickInfo2.random, clickInfo2.referer, clickInfo2.userAgent, sessionCount);
+        ClickInfo(clickInfo2.ip, clickInfo2.date, clickInfo2.uri, clickInfo2.status, clickInfo2.random, clickInfo2.referer, clickInfo2.userAgent, sessionCount, clickInfo2.month, clickInfo2.year, clickInfo2.day);
       };
 
       sessionizedRDD.foreach(f => println("key is: " + f._1 + " value is: " + f._2));
