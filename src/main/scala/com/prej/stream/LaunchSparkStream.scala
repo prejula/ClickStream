@@ -36,9 +36,10 @@ object LaunchSparkStream {
     val executorService = Executors.newScheduledThreadPool(10);
     val analytics = new Thread(new Runnable() {
       def run() {
-
+        val analyticsService = new AnalyticsService();
         println("get from clickstream ::::::: #####");
-        new ClickDAO().get(sc);
+        analyticsService.readClickStream(sc);
+        analyticsService.pageCount(sc);
       }
     })
     executorService.schedule(analytics, 60, TimeUnit.SECONDS);

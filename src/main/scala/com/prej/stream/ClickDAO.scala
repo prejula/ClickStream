@@ -24,6 +24,16 @@ class ClickDAO {
     sqlContext.read.parquet("hdfs://localhost:54310/user/spark/clickstream/clickdata.parquet").registerTempTable("clickstream");
     val clickStream = sqlContext.sql("select * from clickstream");
     clickStream.show();
-    clickStream.persist();
+    clickStream.persist();    
+  }
+  
+  def getPageCountByMonth(sc : SparkContext, month : Integer)
+  {
+     val sqlContext = SQLContext.getOrCreate(sc);
+     import sqlContext.implicits._
+     
+     println("month for which count is required::: ##### " + month);
+     val counts = sqlContext.sql("select count(uri) from clickstream where month = " + month);
+     counts.show();
   }
 }
