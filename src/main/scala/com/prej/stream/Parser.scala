@@ -30,8 +30,6 @@ class Parser extends Serializable {
      
       val clickDAO = new ClickDAO().add(RDD.rddToPairRDDFunctions(new Sessionizer().sessionize(mappedRDD)).values, sparkContext);
     }
-    
-     new ClickDAO().get(sparkContext);
   }
 
   def parseElement(arr: Array[String], temp: Array[String]) = { //<TODO :  change implementation,, make it simpler>

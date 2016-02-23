@@ -24,7 +24,7 @@ class ClickDAO {
       import sqlContext.implicits._
 
       sqlContext.read.parquet("hdfs://localhost:54310/user/spark/clickstream/clickdata.parquet").registerTempTable("clickstream");
-      val clickStream = sqlContext.sql("select * from clickstream where year=2014");
+      val clickStream = sqlContext.sql("select * from clickstream");
       clickStream.show();
       clickStream.persist();
   }
