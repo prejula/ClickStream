@@ -12,9 +12,8 @@ import org.apache.spark.sql.SQLContext
 import org.apache.spark.SparkContext
 
 class Parser extends Serializable {
-  
-  def parse (dstream : DStream[SparkFlumeEvent], sparkContext : SparkContext)
-  {
+
+  def parse(dstream: DStream[SparkFlumeEvent], sparkContext: SparkContext) {
     println("inside parse of Parser ::::::: #####");
     dstream.foreachRDD { rDD =>
       val mappedRDD = rDD
@@ -25,9 +24,10 @@ class Parser extends Serializable {
             parseElement(arr, temp);
             val formatter = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss");
             var date = formatter.parse(temp(1));
-            ClickInfo(temp(0), temp(1), temp(2), temp(3).toInt, temp(4).toInt, temp(5), temp(6), 1, formatter.getCalendar.get(Calendar.MONTH), formatter.getCalendar.get(Calendar.YEAR), formatter.getCalendar.get(Calendar.DATE));
+            ClickInfo(temp(0), temp(1), temp(2), temp(3).toInt, temp(4).toInt, temp(5), temp(6), 1, formatter.getCalendar.get(Calendar.MONTH), 
+                      formatter.getCalendar.get(Calendar.YEAR), formatter.getCalendar.get(Calendar.DATE));
         }
-     
+
       val clickDAO = new ClickDAO().add(RDD.rddToPairRDDFunctions(new Sessionizer().sessionize(mappedRDD)).values, sparkContext);
     }
   }
@@ -46,7 +46,7 @@ class Parser extends Serializable {
           temp(i + 2) = elemArr(1).trim();
         } else if (null != temp(i + 1)) {
           temp(i + 2) = element;
-        } else 
+        } else
           temp(i + 1) = element;
       }
     }
