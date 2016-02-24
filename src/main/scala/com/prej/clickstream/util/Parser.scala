@@ -1,15 +1,13 @@
-package com.prej.stream
+package com.prej.clickstream.util
 
-import java.util.Date
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.flume.SparkFlumeEvent
-import org.apache.http.client.utils.DateUtils
 import java.util.Calendar
 import java.text.SimpleDateFormat
-import java.text.ParseException
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.SQLContext
 import org.apache.spark.SparkContext
+import com.prej.clickstream.dao.ClickDAO
+import com.prej.clickstream.info.ClickInfo
 
 class Parser extends Serializable {
 

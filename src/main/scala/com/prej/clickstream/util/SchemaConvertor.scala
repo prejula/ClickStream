@@ -1,3 +1,4 @@
+package com.prej.clickstream.service;
 /*package com.prej.stream
 
 import org.apache.spark.streaming.dstream.DStream

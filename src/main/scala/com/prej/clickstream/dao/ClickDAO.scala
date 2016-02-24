@@ -1,9 +1,11 @@
-package com.prej.stream
+package com.prej.clickstream.dao
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.SparkContext
+import com.prej.clickstream.info.ClickInfo
+import scala.reflect.runtime.universe
 
 class ClickDAO {
 
@@ -27,7 +29,7 @@ class ClickDAO {
     clickStream.persist();    
   }
   
-  def getPageCountByMonth(sc : SparkContext, month : Integer)
+  def getPageCountByMonth(sc : SparkContext, month : Integer) : Integer =
   {
      val sqlContext = SQLContext.getOrCreate(sc);
      import sqlContext.implicits._
@@ -35,5 +37,11 @@ class ClickDAO {
      println("month for which count is required::: ##### " + month);
      val counts = sqlContext.sql("select count(uri) from clickstream where month = " + month);
      counts.show();
+     
+     var count = 0;
+     counts.map (t => t(0)).collect().foreach (cnt => count = cnt.toString().toInt);
+     println("count for month : " + month + " is :: " + count);
+     
+     count;
   }
 }
